@@ -23,8 +23,12 @@ def menu():
         
         Userinput = int(input('Hvilke element vil du slette?')) - 1
         
-        if index[Userinput]:
-            print()
+        if Userinput < len(todolist):
+            removed = todolist.pop(Userinput)
+            print(f'"{removed}" er slettet fra listen.')
+        else:
+            print('Ugyldig valg.')
+        menu()
 
     elif inputs == "q":
         print('Avslutter programmet...')
@@ -36,13 +40,4 @@ def menu():
         menu()
 
 menu()
-# def goBack():
-#     Userinput = input('vil du gå tilbake til meny eller avslutte programet (ja/nei)')
-#     if Userinput == "ja" or "Ja":
-#         menu()
-#     elif Userinput == 'nei' or 'Nei':
-#         run = False
-#     else:
-#         print('ugyldig input')
-#         goBack() 
 
