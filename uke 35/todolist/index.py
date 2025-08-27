@@ -7,7 +7,7 @@ def printList():
 
     
 def menu():
-    global run
+    
     inputs = input('tast 1 for å se TODO-list, tast 2 for å legge til nye elementer, tast 3 for å slette elementer, tast q for å avslutte programmet:')
     if inputs == "1":
         printList()
@@ -32,7 +32,6 @@ def menu():
 
     elif inputs == "q":
         print('Avslutter programmet...')
-        run = False
         quit()
     
     else:
