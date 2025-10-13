@@ -1,0 +1,18 @@
+
+{% extends "master.html" %}
+
+{% block title %}
+  Start Page
+{% endblock %}
+
+{% block content %}
+  <h1> hei</h1>
+
+  <ul>
+      {% for element in list %}
+        <li> {{element}} </li>
+       {% endfor %} 
+  </ul>
+   
+  
+{% endblock %}
