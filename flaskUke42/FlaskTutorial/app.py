@@ -6,6 +6,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
+<<<<<<< HEAD
 app.config['SQLALCHEMY_DATABASE_URL'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
@@ -14,6 +15,8 @@ db = SQLAlchemy(app)
 class bruker(db.model):
     id= db.Column(db.Serial, primary_key=True, not_null = True)
     Fornavn = db.Column(db.string(50), not_null = True)
+=======
+>>>>>>> 63d7914b2021d7c8b3f6e3bfcf60f7d4087e5caf
 
 @app.route('/')
 def hello():
