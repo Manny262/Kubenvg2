@@ -41,13 +41,3 @@ def logout_view(request):
     logout(request)
     messages.success(request, 'Logged out successfully')
     return redirect('index')
-
-@login_required        
-def custom(request):
-    if request.user.is_staff:
-        return render(request, 'custom.html')
-    else:
-        return redirect('home')
-@login_required
-def home(request):
-    return render(request, 'home.html')
