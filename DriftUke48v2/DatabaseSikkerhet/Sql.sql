@@ -4,7 +4,8 @@ Create table pizzaer(
  pris decimal(5,2)
 );
 Create User testBrukerSikkerhet with password '12345';
-Grant Select on pizzaer to testBrukerSikkerhet;
+Grant connect on database data_sikkerhet_uke48 to testbrukersikkerhet;
+Grant Select on brukere to testBrukerSikkerhet;
 
 
 Insert into pizzaer (navn, pris) Values
@@ -14,7 +15,6 @@ Insert into pizzaer (navn, pris) Values
 ('Kebabpizza', 145.00);
 
 select * from pizzaer
-
 
 Create table brukere(
  id Serial primary key,

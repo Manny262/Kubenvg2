@@ -20,7 +20,7 @@ def vulnerable_query():
     brukernavn = input("Skriv inn brukernavn: ")
 
     # Usikker SQL-spørring (sårbar for SQL-injeksjon)
-    query = f"SELECT * FROM brukere WHERE brukernavn = '{brukernavn}'"
+    query = f"SELECT * FROM brukere WHERE brukernavn = '{brukernavn}'" 
     cursor.execute(query)
 
     # Hente resultat
