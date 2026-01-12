@@ -1,6 +1,6 @@
 # 4-innlogging_oppgave
 
-- login skjema som bruke POST-method
+- login skjema som bruker POST-method
 
 ## Ekstra som er lagt til for sikkkerhet:
 - Werkzeug.security for hashing av passord
