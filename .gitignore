@@ -1,5 +1,5 @@
 # Custom files
-logg.md
+Logg.md
 
 # Logs
 logs
@@ -140,3 +140,4 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+Logg.md
