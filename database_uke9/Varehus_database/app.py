@@ -1,8 +1,9 @@
 import os, psycopg2
 from flask import Flask, render_template
 from dotenv import load_dotenv
-
+from flask_bootstrap import Bootstrap5
 app = Flask(__name__, template_folder='templates')
+bootstrap = Bootstrap5(app) 
 load_dotenv()
 
 def db_queries(query):
@@ -23,9 +24,9 @@ def home():
 
 @app.route('/varehus')
 def get_warehouses():
-    # warehouses = db_queries('SELECT * from Warehouse') 
-    return render_template('warehouses.html', warehouses = db_queries('SELECT * from Warehouse') )
+    return render_template('table_view.html', table_objects = db_queries('SELECT * from Warehouse'), type = "Warehouses" )
 @app.route('/varer')
 def get_items():
-    return render_template('items.html', items = db_queries('SELECT * from Item') )
+    return render_template('table_view.html', table_objects = db_queries('SELECT * from Item'), type = "Items")
     
+
