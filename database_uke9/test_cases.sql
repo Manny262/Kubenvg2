@@ -1,62 +1,188 @@
--- Testcases for tabellene i sql_query.sql
--- Kjor hver blokk separat ved behov. Kommentarer er pa norsk.
+-- Comprehensive test inserts for all tables
+-- Kjoer blokkene sekvensielt i denne rekkefølgen
 
--- 1) Warehouse: gyldige innsettinger
+-- ========== 1) WAREHOUSE - Varehus ==========
 INSERT INTO Warehouse (warehouse_name, adress, city) VALUES
-('Test Lager A', 'Testgata 1', 'Oslo'),
-('Test Lager B', 'Testgata 2', 'Bergen');
+('Oslo Lager', 'Tjøme 10', 'Oslo'),
+('Bergen Hub', 'Dreggsalmenningen 5', 'Bergen'),
+('Stavanger Center', 'Løkegata 15', 'Stavanger'),
+('Trondheim Storage', 'Munkegata 3', 'Trondheim'),
+('Tromsø Depot', 'Strandtorget 2', 'Tromsø'),
+('Kristiansand Lager', 'Festningsgata 25', 'Kristiansand'),
+('Lillehammer Warehouse', 'Storgata 50', 'Lillehammer'),
+('Ålesund Terminal', 'Keiser Wilhelmsgate 8', 'Ålesund');
 
--- 2) Category: gyldige innsettinger
+-- ========== 2) CATEGORY - Produktkategorier ==========
 INSERT INTO Category (category_name, description) VALUES
-('Elektronikk', 'Elektroniske produkter'),
-('Tilbehor', 'Kabler, mus, tastatur og lignende');
+('Bærbare Datamaskiner', 'Laptops, ultrabooks og netbooks'),
+('Stasjonære PCs', 'Stasjonære datamaskiner og workstations'),
+('Servere', 'Servere og serverutstyr'),
+('Skjermer og Displays', 'Monitorer i ulike størrelser'),
+('Lagringsutstyr', 'Harddisker, SSD og NAS'),
+('Nettverksutstyr', 'Routere, switcher og modemer'),
+('Tastatur og Mus', 'Inndataenheter og tilbehør'),
+('Skrivere og Skannnere', 'Utskrifts- og skanneutstyr'),
+('Lyd- og Videoutstyr', 'Høyttalere, mikrofoner og kameraer'),
+('Batterier og Strøm', 'Strømforsyninger og batterier');
 
--- 3) Item: gyldig innsetting med kobling til Warehouse og Category
-INSERT INTO Item (warehouse_id, item_name, price, category_id) VALUES
-(1, 'Test Laptop', 9999.00, 1),
-(2, 'Test Mus', 199.00, 2);
+-- ========== 3) CONTACT_PERSON - Kontaktpersoner ==========
+INSERT INTO Contact_person (contact_name, email, phone) VALUES
+('Kari Johansen', 'kari.johansen@tech.no', '41234567'),
+('Ole Nordmann', 'ole.nordmann@innovate.no', '91234567'),
+('Ingrid Andersen', 'ingrid.andersen@digital.no', '51234567'),
+('Bjørn Sørensen', 'bjorn.sorensen@elektronics.no', '61234567'),
+('Lisa Bergström', 'lisa.bergstrom@component.no', '21234567'),
+('Erik Johannsen', 'erik.johannsen@distribution.no', '95234567'),
+('Maria Olsen', 'maria.olsen@supplies.no', '71234567'),
+('Thomas Vik', 'thomas.vik@products.no', '88234567'),
+('Sophia Ness', 'sophia.ness@hardware.no', '45234567'),
+('Robert Gram', 'robert.gram@commercial.no', '32234567');
 
--- 4) Inventory: gyldig innsetting
-INSERT INTO Inventory (item_id, warehouse_id, number_of_items) VALUES
-(1, 1, 10),
-(2, 2, 25);
-
--- 5) Contact_person: gyldige innsettinger (unik epost og telefon)
-INSERT INTO Contact_person (email, phone) VALUES
-('kontaktA@example.com', '11111111'),
-('kontaktB@example.com', '22222222');
-
--- 6) Supplier: gyldig innsetting med kobling til Contact_person
+-- ========== 4) SUPPLIER - Leverandører ==========
 INSERT INTO Supplier (supplier_name, contact_person_id, phone, email) VALUES
-('Leverandor A', 1, '33333333', 'leverandorA@example.com'),
-('Leverandor B', 2, '44444444', 'leverandorB@example.com');
+('TechPro AS', 1, '41234500', 'kjop@techpro.no'),
+('InnovateTech AB', 2, '91234500', 'salg@innovatetech.no'),
+('DigitalComponents Ltd', 3, '51234500', 'orders@digitalcomp.no'),
+('ElectroSource GmbH', 4, '61234500', 'kontakt@electrosource.no'),
+('ComponentWorld Inc', 5, '21234500', 'sales@componentworld.no'),
+('DistributionHub AS', 6, '95234500', 'dist@distribhub.no'),
+('SupplySmart Norway', 7, '71234500', 'supply@supplysmart.no'),
+('HardwareExperts Ltd', 8, '88234500', 'info@hardwareexp.no'),
+('DirectTech Solutions', 9, '45234500', 'direct@directtech.no'),
+('GlobalProducts GmbH', 10, '32234500', 'global@globalproducts.no');
 
--- 7) Contact_person: oppdatering av supplier_id (FK referanse)
-UPDATE Contact_person SET supplier_id = 1 WHERE contact_person_id = 1;
-UPDATE Contact_person SET supplier_id = 2 WHERE contact_person_id = 2;
+-- ========== 5) ITEM - Produkter (med supplier_id og category_id) ==========
+INSERT INTO Item (item_name, price, category_id, supplier_id) VALUES
+('Dell XPS 13 Laptop', 14999.00, 1, 1),
+('HP Pavilion 15 Laptop', 8499.00, 1, 2),
+('Lenovo ThinkPad X1', 16799.00, 1, 1),
+('ASUS VivoBook 15', 7999.00, 1, 3),
+('MacBook Pro 14', 19999.00, 1, 4),
+('Dell Inspiron Desktop', 9999.00, 2, 1),
+('HP Elitedesk 800', 12499.00, 2, 2),
+('Lenovo ThinkCentre M90', 11999.00, 2, 1),
+('ASUS ROG Gaming PC', 18999.00, 2, 3),
+('Apple iMac 24', 22999.00, 2, 4),
+('Dell PowerEdge R750', 45999.00, 3, 5),
+('IBM System x3650 M5', 38999.00, 3, 5),
+('Cisco UCS C480 M5', 52999.00, 3, 6),
+('HPE ProLiant DL380', 42999.00, 3, 2),
+('Lenovo ThinkSystem SR650', 39999.00, 3, 1),
+('Dell U2722D Monitor', 4299.00, 4, 1),
+('LG UltraWide 34"', 5999.00, 4, 7),
+('ASUS PA278QV Monitor', 6799.00, 4, 3),
+('BenQ SW240 Monitor', 3999.00, 4, 6),
+('Samsung C34F Curved', 4499.00, 4, 8),
+('Samsung 870 EVO SSD 1TB', 899.00, 5, 3),
+('WD Blue 2TB', 1499.00, 5, 5),
+('Seagate Barracuda 4TB', 799.00, 5, 6),
+('SK Hynix Platinum 2TB', 1299.00, 5, 9),
+('Intel 670p 1TB NVMe', 699.00, 5, 4),
+('Cisco Catalyst 9300', 8999.00, 6, 2),
+('Ubiquiti UniFi Dream Machine', 399.00, 6, 7),
+('TP-Link Archer AX12', 999.00, 6, 8),
+('Netgear Nighthawk AXE300', 1299.00, 6, 3),
+('Fortinet FortiGate 400F', 12999.00, 6, 10),
+('Corsair K95 Platinum Tastatur', 2299.00, 7, 1),
+('Logitech MX Master 3 Mus', 999.00, 7, 2),
+('Razer Huntsman Elite Tastatur', 1899.00, 7, 3),
+('SteelSeries Rival 600 Mus', 749.00, 7, 4),
+('Keychron K8 Pro Tastatur', 599.00, 7, 5),
+('HP LaserJet Pro M404n Skriver', 4999.00, 8, 2),
+('Canon imageFORMULA DR-C230', 5999.00, 8, 6),
+('Xerox VersaLink C405 Skriver', 22999.00, 8, 9),
+('Brother HL-L8360CDW', 5499.00, 8, 7),
+('Epson WorkForce Pro WF-C5790', 8999.00, 8, 10),
+('Sony WH-1000XM5 Headphones', 3699.00, 9, 1),
+('Bose QuietComfort 45', 3299.00, 9, 2),
+('Shure SM7B Mikrofon', 4099.00, 9, 3),
+('Logitech C920 Webcam', 699.00, 9, 4),
+('DJI Air 2S Drone', 12999.00, 9, 5),
+('Corsair AX860 PSU 860W', 1999.00, 10, 1),
+('EVGA SuperNOVA 750W', 899.00, 10, 2),
+('Seasonic Focus Plus 850W', 1299.00, 10, 3),
+('Gigabyte P850GM 850W', 1199.00, 10, 4),
+('Be Quiet Dark Power Pro 1200W', 2499.00, 10, 5);
 
--- 8) Negativ test: duplikat epost i Contact_person (skal feile)
--- INSERT INTO Contact_person (email, phone) VALUES
--- ('kontaktA@example.com', '55555555');
-
--- 9) Negativ test: ugyldig warehouse_id i Item (skal feile)
--- INSERT INTO Item (warehouse_id, item_name, price, category_id) VALUES
--- (999, 'Ugyldig Lager', 10.00, 1);
-
--- 10) Negativ test: ugyldig category_id i Item (skal feile)
--- INSERT INTO Item (warehouse_id, item_name, price, category_id) VALUES
--- (1, 'Ugyldig Kategori', 10.00, 999);
-
--- 11) Negativ test: duplikat epost i Supplier (skal feile)
--- INSERT INTO Supplier (supplier_name, contact_person_id, phone, email) VALUES
--- ('Leverandor C', 1, '66666666', 'leverandorA@example.com');
-
--- 12) Verifikasjon: enkel sjekk av relasjoner
-SELECT i.item_id, i.item_name, w.warehouse_name, c.category_name
-FROM Item i
-JOIN Warehouse w ON i.warehouse_id = w.warehouse_id
-JOIN Category c ON i.category_id = c.category_id;
-
-SELECT s.supplier_id, s.supplier_name, cp.email, cp.phone
-FROM Supplier s
-JOIN Contact_person cp ON s.contact_person_id = cp.contact_person_id;
+-- ========== 6) INVENTORY - Beholdning i varehus ==========
+INSERT INTO Inventory (item_id, warehouse_id, number_of_items) VALUES
+(1, 1, 15),
+(1, 2, 8),
+(2, 1, 12),
+(2, 3, 5),
+(3, 2, 10),
+(3, 4, 7),
+(4, 1, 20),
+(4, 5, 3),
+(5, 2, 5),
+(5, 6, 2),
+(6, 1, 25),
+(6, 3, 18),
+(7, 2, 12),
+(7, 4, 9),
+(8, 1, 16),
+(8, 5, 6),
+(9, 3, 8),
+(9, 6, 4),
+(10, 4, 3),
+(10, 7, 2),
+(11, 2, 6),
+(11, 4, 4),
+(12, 2, 5),
+(12, 5, 3),
+(13, 1, 4),
+(13, 6, 2),
+(14, 3, 7),
+(14, 7, 5),
+(15, 4, 8),
+(15, 8, 6),
+(16, 1, 30),
+(16, 2, 25),
+(17, 2, 18),
+(17, 3, 12),
+(18, 1, 15),
+(18, 4, 10),
+(19, 3, 22),
+(19, 5, 16),
+(20, 4, 28),
+(20, 6, 20),
+(21, 1, 50),
+(21, 2, 45),
+(22, 2, 38),
+(22, 3, 32),
+(23, 1, 42),
+(23, 4, 36),
+(24, 3, 25),
+(24, 5, 20),
+(25, 4, 55),
+(25, 6, 48),
+(26, 2, 12),
+(26, 5, 8),
+(27, 1, 18),
+(27, 3, 14),
+(28, 2, 22),
+(28, 6, 16),
+(29, 4, 30),
+(29, 7, 24),
+(30, 3, 35),
+(30, 8, 28),
+(31, 1, 8),
+(32, 2, 6),
+(33, 3, 5),
+(34, 4, 7),
+(35, 5, 9),
+(36, 2, 4),
+(37, 1, 3),
+(38, 4, 2),
+(39, 3, 5),
+(40, 6, 3),
+(41, 1, 10),
+(42, 2, 8),
+(43, 3, 6),
+(44, 5, 4),
+(45, 6, 5),
+(46, 2, 12),
+(47, 3, 10),
+(48, 1, 8),
+(49, 4, 6),
+(50, 7, 4);
