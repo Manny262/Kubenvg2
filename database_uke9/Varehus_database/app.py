@@ -6,6 +6,8 @@ from flask_classful import FlaskView, route
 from helpers import db_queries, get_context
 app = Flask(__name__, template_folder='templates')
 bootstrap = Bootstrap5(app) 
+
+
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -38,6 +40,12 @@ class items_View(FlaskView):
                 INNER JOIN Warehouse w USING(warehouse_id)
             WHERE n.item_id = %s
             """,
+        "get_supplier_info":"""
+            SELECT s.supplier_name, s.phone, s.email, c.contact_name, c.phone, c.email
+            FROM Supplier s
+                INNER JOIN Contact_person c USING(contact_person_id)
+            WHERE s.supplier_id = %s
+        """
         
     }
     
@@ -58,8 +66,6 @@ class items_View(FlaskView):
                 print("👍param 1 ")
                 
             case ["", y] if y != "":
-                # query = get_items_query + "WHERE i.supplier_id = %s"
-                # query_params = [y]  
                 print("👍param 2 ")
                 return redirect(f'/varer/supplier/{y}')
             case ["",""]| _: 
@@ -73,18 +79,21 @@ class items_View(FlaskView):
     
     def get(self):
         table_objects = db_queries(self.query_dictonary["get_items"], False)
+        print(table_objects)
         return render_template('table_view.html', **get_context(table_objects, "Items", False))
     
     @route('/<id>')
     def get_item_info(self, id):
         table_objects = db_queries(self.query_dictonary["get_warehouses_with_item"], [id])
+        print(table_objects)
         item_info = db_queries(self.query_dictonary["get_items"] + "WHERE item_id = %s", [id])
-        
-        return render_template('table_view.html', **get_context(table_objects, "Items", item_info[0]))
+        return render_template('table_view.html', **get_context(table_objects, "Items", item_info))
+   
     @route('/supplier/<supplier_id>')
     def get_item_by_supplier(self, supplier_id):
         table_objects = db_queries(self.query_dictonary["post_filter_items"] + " WHERE i.supplier_id = %s", [supplier_id])
-        return render_template('table_view.html', **get_context(table_objects, "Items", False))
+        supplier_info = db_queries(self.query_dictonary["get_supplier_info"], [supplier_id])
+        return render_template('table_view.html', **get_context(table_objects, "Items", supplier_info))
         
         
 items_View.register(app) 

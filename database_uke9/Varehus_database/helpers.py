@@ -34,35 +34,36 @@ def db_queries(query, query_params):
         cur.execute(query, query_params)     
     else: 
         cur.execute(query)
-        
+
     db_callback_col = [column_names_norwegian.get(col[0], col[0]) for col in cur.description]
-    db_callback_rows = cur.fetchall() 
-    cur.close()
+
+
+    db_callback_rows = cur.fetchall()
     
+    cur.close()
     conn.close()
     return [db_callback_rows, db_callback_col]
 
 
 def get_context(table_objects, type, item_info):
-    default_context = {
+    
+    context = {
         "table_objects": table_objects[0],
         "table_col": table_objects[1],
     }
-    
-    match type:
-        case "Items" if item_info:    
-            default_context.update({
-                "item_info": item_info[0],
-               
-            })
-                 
-            return default_context
-        case "Items": 
-            default_context.update({
+    items_context = {
                     "type": "Items",
                     "warehouses": db_queries('SELECT warehouse_id, warehouse_name from Warehouse', False),
                     "suppliers": db_queries('SELECT supplier_id, supplier_name from Supplier', False)
-                })
-            return default_context
+                }
+    match type:
+        case "Items" if item_info:    
+            context = context | items_context
+            context.update(
+               {"item_info": dict(zip(item_info[1], item_info[0][0]))}
+            )
+        case "Items": 
+            context = context | items_context
         case _:
             print("❌")
+    return context
