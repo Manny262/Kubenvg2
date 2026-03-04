@@ -61,7 +61,8 @@
         </div>
         <button type="submit" class="btn btn-primary">Filter</button>
       </form>
-      {% endif %} {% if item_info %}
+      {% endif %} 
+    {% if item_info %}
       <div>
         <ul>
           {% for key, value in item_info.items() %}
@@ -69,7 +70,7 @@
           {% endfor %}
         </ul>
       </div>
-      {% endif %} 
+    {% endif %} 
       <table class="table table-striped table-bordered table-hover">
         <thead class="table-dark">
           <tr>

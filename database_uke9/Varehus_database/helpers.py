@@ -11,7 +11,9 @@ column_names_norwegian = {
     # Supplier and Contact_person:
     "supplier_name": "Leverandør",
     "phone": "Telefon",
-    "contact_name": "Navn",
+    "contact_name": "Kontaktperson Navn",
+    "contact_phone": "Kontaktperson telefon",
+    "contact_email": "Kontaktperson email",
     # Inventory:
     "number_of_items": "Antall",
     # Warehouse:

@@ -41,7 +41,7 @@ class items_View(FlaskView):
             WHERE n.item_id = %s
             """,
         "get_supplier_info":"""
-            SELECT s.supplier_name, s.phone, s.email, c.contact_name, c.phone, c.email
+            SELECT s.supplier_name, s.phone, s.email, c.contact_name, c.phone as contact_phone, c.email as contact_email
             FROM Supplier s
                 INNER JOIN Contact_person c USING(contact_person_id)
             WHERE s.supplier_id = %s
