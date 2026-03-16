@@ -11,7 +11,9 @@ column_names_norwegian = {
     # Supplier and Contact_person:
     "supplier_name": "Leverandør",
     "phone": "Telefon",
-    "contact_name": "Navn",
+    "contact_name": "Kontaktperson Navn",
+    "contact_phone": "Kontaktperson telefon",
+    "contact_email": "Kontaktperson email",
     # Inventory:
     "number_of_items": "Antall",
     # Warehouse:
@@ -64,6 +66,10 @@ def get_context(table_objects, type, item_info):
             )
         case "Items": 
             context = context | items_context
+        case "Warehouses":
+            context.update(
+                {"type": "Warehouses"}
+            )
         case _:
             print("❌")
     return context

@@ -1,0 +1,28 @@
+{% extends "master.html" %} {% block content %}
+    <div class="container mt-3">
+      <table class="table table-striped table-bordered table-hover">
+        <thead class="table-dark">
+          <tr>
+            {% for i in table_col %}
+            <th>{{ i }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in table_objects %}
+          <tr>
+            {% for n in i %}
+            <td>{{ n }}</td>
+            {% endfor %}
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan='{{ table_col|length }}' class="text-center text-muted">ingen treff</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+
+{% endblock %}
