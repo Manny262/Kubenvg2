@@ -8,15 +8,22 @@ app = Flask(__name__, template_folder='templates')
 bootstrap = Bootstrap5(app) 
 
 
-@app.route('/')
-def home():
-    return render_template('home.html')
+class home_view(FlaskView):
+    route_base = '/'
+    def get(self):
+        return render_template('home.html')
 
-@app.route('/varehus')
-def get_warehouses():
-    return render_template('table_view.html', table_objects = db_queries('SELECT * from Warehouse', False), type = "Warehouses" )
+class warehouses_view(FlaskView):
+    route_base = '/varehus'
+    def get(self):
+        table_objects = db_queries('SELECT * from Warehouse', False)
+        return render_template('warehouse_view.html', **get_context(table_objects, "Warehouses", False))    
 
-class items_View(FlaskView):
+# @app.route('/varehus')
+# def get_warehouses():
+#     return render_template('table_view.html', table_objects = db_queries('SELECT * from Warehouse', False), type = "Warehouses" )
+
+class items_view(FlaskView):
     route_base = '/varer'
     query_dictonary = {
         "post_filter_items":"""
@@ -33,7 +40,11 @@ class items_View(FlaskView):
                                     INNER JOIN Supplier s USING(supplier_id)
                                     LEFT JOIN Category c USING(category_id)
             """,
-            
+        "get_items_by_supplier":"""SELECT i.item_id, i.item_name, i.price, c.category_name
+                                   FROM Item i
+                                    INNER JOIN Supplier s USING(supplier_id)
+                                    LEFT JOIN Category c USING(category_id)
+        """,
         "get_warehouses_with_item":""" 
             SELECT w.warehouse_name, w.adress, w.city, n.number_of_items
             FROM Inventory n
@@ -85,15 +96,15 @@ class items_View(FlaskView):
     @route('/<id>')
     def get_item_info(self, id):
         table_objects = db_queries(self.query_dictonary["get_warehouses_with_item"], [id])
-        print(table_objects)
         item_info = db_queries(self.query_dictonary["get_items"] + "WHERE item_id = %s", [id])
         return render_template('table_view.html', **get_context(table_objects, "Items", item_info))
    
     @route('/supplier/<supplier_id>')
     def get_item_by_supplier(self, supplier_id):
-        table_objects = db_queries(self.query_dictonary["post_filter_items"] + " WHERE i.supplier_id = %s", [supplier_id])
+        table_objects = db_queries(self.query_dictonary["get_items_by_supplier"] + " WHERE i.supplier_id = %s", [supplier_id])
         supplier_info = db_queries(self.query_dictonary["get_supplier_info"], [supplier_id])
         return render_template('table_view.html', **get_context(table_objects, "Items", supplier_info))
         
         
-items_View.register(app) 
+items_view.register(app) 
+warehouses_view.register(app)

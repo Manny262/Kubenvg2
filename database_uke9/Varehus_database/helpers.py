@@ -66,6 +66,10 @@ def get_context(table_objects, type, item_info):
             )
         case "Items": 
             context = context | items_context
+        case "Warehouses":
+            context.update(
+                {"type": "Warehouses"}
+            )
         case _:
             print("❌")
     return context
